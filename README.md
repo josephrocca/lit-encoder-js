@@ -1,2 +1,2 @@
-# lit-encoder-js
-LiT (Zero-Shot Transfer with Locked-image text Tuning) image and text encoder models, working in the browser (WIP)
+# LiT Image and Text Encoders For Browser & Deno
+(work in progress)
