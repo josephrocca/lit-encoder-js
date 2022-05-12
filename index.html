@@ -1,0 +1,27 @@
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@3.16.0/dist/tf-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-cpu@3.16.0/dist/tf-backend-cpu.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite@0.0.1-alpha.8/dist/tf-tflite.min.js"></script>
+
+<script type="module">
+  let tfliteModel = await tflite.loadTFLiteModel('https://huggingface.co/rocca/lit-web/resolve/main/debug/lit_savedmodel_no_params.tflite');
+  
+  
+  await import("https://cdn.jsdelivr.net/pyodide/v0.20.0/full/pyodide.js");
+  let pyodide = await loadPyodide();
+  await pyodide.runPythonAsync(`
+    from pyodide.http import pyfetch
+    response = await pyfetch("https://huggingface.co/rocca/lit-web/resolve/main/debug/score_images_grad_variables_1.npy")
+    if response.status == 200:
+        with open("score_images_grad_variables_1.npy", "wb") as f:
+            f.write(await response.bytes())
+  `);
+  await pyodide.loadPackage("numpy");
+  await pyodide.runPython(`
+    import numpy as np
+    score_images_grad_variables = np.load('score_images_grad_variables_1.npy', allow_pickle=True)
+    variables_float32 = list(map(lambda x: x.astype('float32'), score_images_grad_variables))
+  `);
+  let variablesFloat32 = pyodide.globals.get("variables_float32").toJs();
+  let variableNames = await fetch("https://huggingface.co/rocca/lit-web/raw/main/debug/score_images_grad_variable_names_1.json").then(r => r.json());
+  
+</script>
