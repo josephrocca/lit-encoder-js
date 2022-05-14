@@ -4,21 +4,28 @@
 
 <script>
   window.start = async function() {
-    window.tfliteModel = await tflite.loadTFLiteModel('https://huggingface.co/rocca/lit-web/resolve/main/embed_images.tflite');
+    window.imageModel = await tflite.loadTFLiteModel('https://huggingface.co/rocca/lit-web/resolve/main/embed_images.tflite');
     
     const outputTensor = tf.tidy(() => {
       // Get pixels data from an image.
       let img = tf.browser.fromPixels(inputImg);
       // Resize and normalize:
       img = tf.image.resizeBilinear(img, [224, 224]);
-      img = tf.sub(tf.div(tf.expandDims(img), 127.5), 1); // shape:[1, 224, 224, 3]  data:[-0.1921568512916565, -0.1450980305671692, -0.2235293984413147, -0.1921568512916565, -0.1450980305671692, ...]
+      img = tf.sub(tf.div(tf.expandDims(img), 127.5), 1); // shape:[1, 224, 224, 3]  data:[-0.1921568512916565, -0.1450980305671692, -0.2235293984413147, -0.1921568512916565, -0.1450980305671692, ...] (this matches the correct output of the image preprocessing function (the function returned by `lit_model.get_image_preprocessing()`)
       // Run the inference.
-      let outputTensor = tfliteModel.predict(img);
+      let outputTensor = imageModel.predict(img);
       // De-normalize the result.
       return tf.mul(tf.add(outputTensor, 1), 127.5)
     });
     
-    console.log(outputTensor); // For testing that the output is correct: https://colab.research.google.com/drive/1TqOn6VLaF31BGcQilWCFIrTFsEWEQgE1
+    console.log(outputTensor); // Should be: <tf.Tensor: shape=(1, 768), dtype=float32, numpy= array([[-5.62530532e-02,  6.09267130e-02, -3.17819528e-02, 4.48665069e-03, -3.58026102e-02,  6.82989089e-03, 9.78150684e-03,  1.03076296e-02,  5.18161384e-03, 3.06973103e-02, -2.85994262e-02, -2.11724918e-02, -4.90405224e-03, -9.76243801e-03, -2.13515703e-02, 1.59902871e-02,  1.87387168e-02,  2.60726195e-02, 6.17518760e-02, -1.82616264e-02, -2.21678484e-02, 1.55742103e-02, -8.61097034e-03, -1.34193553e-02, ..., 3.38867083e-02, -2.82331626e-03, -4.84273173e-02, -7.01147467e-02, -6.88162120e-03, -3.05738044e-03]], dtype=float32)>
+    
+    
+    window.textModel = await 
+    // Correct outputs per LiT notebook:
+    // texts = ["hello world!", "testing one two three", "hi", "aaaaaaaaaaaaaaaa"]
+    // text_tokens = ; // array([[  101,  7592,  2088,   999,     0,     0,     0,     0,     0, 0,     0,     0,     0,     0,     0,     0], [  101,  5604,  2028,  2048,  2093,     0,     0,     0,     0, 0,     0,     0,     0,     0,     0,     0], [  101,  7632,     0,     0,     0,     0,     0,     0,     0, 0,     0,     0,     0,     0,     0,     0], [  101, 13360, 11057, 11057, 11057, 11057, 11057, 11057,  2050, 0,     0,     0,     0,     0,     0,     0]], dtype=int32)
+    // <tf.Tensor: shape=(4, 768), dtype=float32, numpy= array([[-0.00325142,  0.01848885,  0.00041978, ...,  0.00173793, -0.00536559, -0.06884101], [-0.01331316,  0.01797788,  0.00657475, ...,  0.00655348, 0.02183297, -0.08194969], [ 0.00275494,  0.0236993 ,  0.0011628 , ...,  0.00860824, 0.00814609, -0.05825125], [ 0.00415286,  0.00938824, -0.00084121, ...,  0.01578477, 0.0134029 , -0.06656414]], dtype=float32)>
   }
 </script>
 
