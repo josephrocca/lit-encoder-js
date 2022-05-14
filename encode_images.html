@@ -6,7 +6,7 @@
 
 <script type="module">
   window.start = async function() {
-    let tfliteModel = await tflite.loadTFLiteModel('https://huggingface.co/rocca/lit-web/resolve/main/encode_images.tflite');
+    let tfliteModel = await tflite.loadTFLiteModel('https://huggingface.co/rocca/lit-web/resolve/main/embed_images.tflite');
     const outputTensor = tf.tidy(() => {
       // Get pixels data from an image.
       let img = tf.browser.fromPixels(inputImg);
