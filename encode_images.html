@@ -2,9 +2,9 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-cpu@3.16.0/dist/tf-backend-cpu.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tflite@0.0.1-alpha.8/dist/tf-tflite.min.js"></script>
 
-<script type="module">
+<script>
   window.start = async function() {
-    let tfliteModel = await tflite.loadTFLiteModel('https://huggingface.co/rocca/lit-web/resolve/main/embed_images.tflite');
+    window.tfliteModel = await tflite.loadTFLiteModel('https://huggingface.co/rocca/lit-web/resolve/main/embed_images.tflite');
     const outputTensor = tf.tidy(() => {
       // Get pixels data from an image.
       let img = tf.browser.fromPixels(inputImg);
