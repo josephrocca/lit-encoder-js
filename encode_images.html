@@ -5,17 +5,19 @@
 <script>
   window.start = async function() {
     window.tfliteModel = await tflite.loadTFLiteModel('https://huggingface.co/rocca/lit-web/resolve/main/embed_images.tflite');
+    
     const outputTensor = tf.tidy(() => {
       // Get pixels data from an image.
       let img = tf.browser.fromPixels(inputImg);
       // Resize and normalize:
       img = tf.image.resizeBilinear(img, [224, 224]);
-      img = tf.sub(tf.div(tf.expandDims(img), 127.5), 1);
+      img = tf.sub(tf.div(tf.expandDims(img), 127.5), 1); // shape:[1, 224, 224, 3]  data:[-0.1921568512916565, -0.1450980305671692, -0.2235293984413147, -0.1921568512916565, -0.1450980305671692, ...]
       // Run the inference.
       let outputTensor = tfliteModel.predict(img);
       // De-normalize the result.
       return tf.mul(tf.add(outputTensor, 1), 127.5)
     });
+    
     console.log(outputTensor);
   }
 </script>
