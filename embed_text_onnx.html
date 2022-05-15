@@ -12,10 +12,10 @@
     
     <script>
       if(self.crossOriginIsolated) { // needs to be cross-origin-isolated to use wasm threads. you need to serve this html file with these two headers: https://web.dev/coop-coep/
-        ort.env.wasm.numThreads = navigator.hardwareConcurrency
+        ort.env.wasm.numThreads = navigator.hardwareConcurrency / 2;
       }
       
-      async function start() {
+      (async function() {
         console.log("Downloading model... (see network tab for progress)");
         let modelPath = 'https://huggingface.co/rocca/lit-web/resolve/main/embed_text_tokens.onnx';
         const session = await ort.InferenceSession.create(modelPath, { executionProviders: ["wasm"] });
@@ -36,9 +36,8 @@
         console.log("Finished inference.");
 
         const data = results["Identity_1:0"].data;
-        console.log(`data of result tensor 'output'`, data); // Should match this Python output: <tf.Tensor: shape=(1, 768), dtype=float32, numpy= array([[-5.62530532e-02,  6.09267130e-02, -3.17819528e-02, 4.48665069e-03, -3.58026102e-02,  6.82989089e-03, 9.78150684e-03,  1.03076296e-02,  5.18161384e-03, 3.06973103e-02, -2.85994262e-02, -2.11724918e-02, -4.90405224e-03, -9.76243801e-03, -2.13515703e-02, 1.59902871e-02,  1.87387168e-02,  2.60726195e-02, 6.17518760e-02, -1.82616264e-02, -2.21678484e-02, 1.55742103e-02, -8.61097034e-03, -1.34193553e-02, ..., 3.38867083e-02, -2.82331626e-03, -4.84273173e-02, -7.01147467e-02, -6.88162120e-03, -3.05738044e-03]], dtype=float32)>
-      }
-
+        console.log(`data of result tensor 'output'`, data); // Should match this Python output (all 4 `texts`): <tf.Tensor: shape=(4, 768), dtype=float32, numpy= array([[-0.00325142,  0.01848885,  0.00041978, ...,  0.00173793, -0.00536559, -0.06884101], [-0.01331316,  0.01797788,  0.00657475, ...,  0.00655348, 0.02183297, -0.08194969], [ 0.00275494,  0.0236993 ,  0.0011628 , ...,  0.00860824, 0.00814609, -0.05825125], [ 0.00415286,  0.00938824, -0.00084121, ...,  0.01578477, 0.0134029 , -0.06656414]], dtype=float32)>
+      })();
     </script>
   </body>
 </html>
