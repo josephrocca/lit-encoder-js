@@ -23,10 +23,12 @@
         const session = await ort.InferenceSession.create(modelPath, { executionProviders: ["wasm"] });
         console.log("Model loaded.");
         
+        // Trying bicubic resize using wasm-vips to see if it produces a more accurate output:
         let imgBlob = await fetch(inputImg.src).then(r => r.blob());
         imgBlob = await resizeAndCenterCrop(imgBlob, "cubic");
         let newInputImg = new Image();
         await new Promise(r => newInputImg.onload=r, newInputImg.src=URL.createObjectURL(imgBlob));
+        
         let img = tf.browser.fromPixels(newInputImg);
         // img = tf.image.resizeBilinear(img, [224, 224]);
         img = tf.sub(tf.div(tf.expandDims(img), 127.5), 1);
