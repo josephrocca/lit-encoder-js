@@ -2,5 +2,6 @@
 
 ## Demos:
 * **Image Embedding**: https://josephrocca.github.io/lit-encoder-js/embed_images_onnx.html
+* **Text Embedding**: https://josephrocca.github.io/lit-encoder-js/embed_text_onnx.html
 
-Conversion: https://colab.research.google.com/drive/1TqOn6VLaF31BGcQilWCFIrTFsEWEQgE1
+Conversion notebook: https://colab.research.google.com/github/josephrocca/lit-encoder-js/blob/main/LiT_conversion_jax2tf_to_SavedModel_to_ONNX_text_%26_image_models.ipynb
