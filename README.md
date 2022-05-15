@@ -1,5 +1,7 @@
 # LiT Image and Text Encoders For Browser & Deno
-The demos below work (the models are ~400mb each so they take a while to initalize), but I'm waiting on work back from one of the authors of [this demo](https://google-research.github.io/vision_transformer/lit/) for a text tokenizer so I don't have to reimplement it.
+The demos below work, but I'm waiting on work back from one of the authors of [this demo](https://google-research.github.io/vision_transformer/lit/) for a text tokenizer so I don't have to reimplement it.
+
+Note that the models are ~400mb each so they may take a while to initalize depending on your internet speed.
 
 ## Demos:
 * **Image Embedding**: https://josephrocca.github.io/lit-encoder-js/embed_images_onnx.html
