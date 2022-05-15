@@ -26,13 +26,13 @@
         img = tf.sub(tf.div(tf.expandDims(img), 127.5), 1);
         let float32RgbData = img.dataSync();
 
-        const feeds = {'input': new ort.Tensor('float32', float32RgbData, [1,224,224,3])};
+        const feeds = {'images': new ort.Tensor('float32', float32RgbData, [1,224,224,3])};
 
         console.log("Running inference...");
         const results = await session.run(feeds);
         console.log("Finished inference.");
 
-        const data = results["output"].data;
+        const data = results["Identity_1:0"].data;
         console.log(`data of result tensor 'output'`, data);
       }
     </script>
