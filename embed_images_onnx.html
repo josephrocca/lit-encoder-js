@@ -4,6 +4,7 @@
     <title>Web/JS LiT Image Embedding Demo with ONNX Web Runtime</title>
   </head>
   <body>
+    <script src="./enable-threads.js"></script> <!-- a hack to add COEP/COOP headers which are needed for `SharedArrayBuffer`s and thread. Normally you would add these headers when serving this HTML file, but Github Pages doesn't allow setting these headers as of writing -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.17.0/dist/tf.min.js"></script> <!-- NOTE: tfjs is only used for loading the image and resizing/normalising it. Massively overkill to import the whole tfjs for this, but I'm lazy. -->
     <script src="https://cdn.jsdelivr.net/npm/wasm-vips@0.0.2/lib/vips.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.11.0/dist/ort.js"></script>
@@ -23,7 +24,7 @@
         console.log("Model loaded.");
         
         let imgBlob = await fetch(inputImg.src).then(r => r.blob());
-        imgBlob = await resizeAndCenterCrop(blob, "cubic");
+        imgBlob = await resizeAndCenterCrop(imgBlob, "cubic");
         let newInputImg = new Image();
         await new Promise(r => newInputImg.onload=r, newInputImg.src=URL.createObjectURL(imgBlob));
         let img = tf.browser.fromPixels(newInputImg);
