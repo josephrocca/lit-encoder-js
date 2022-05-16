@@ -3,13 +3,13 @@
 /*
   Example usage:
   
-    let tokenizer = await import("./text-tokenizer.js").then(m => m.loadTokenizer());
+    let tokenizer = await import("./sentencepiece-text-tokenizer.js").then(m => m.loadTokenizer());
     let textTokens = tokenizer.encode("hello world!");
-    textTokens.length = 16
+    textTokens.length = 16;
     textTokens = [...textTokens.slice(0, 16)].map(e => e == undefined ? 0 : e); // pad with zeros to length of 16
     textTokens = Int32Array.from(textTokens);
     
- */
+*/
 
 /**
  * @license
