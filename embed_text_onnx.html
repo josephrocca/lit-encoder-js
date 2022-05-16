@@ -21,7 +21,8 @@
         const session = await ort.InferenceSession.create(modelPath, { executionProviders: ["wasm"] });
         console.log("Model loaded.");
         
-        let tokenizer = await import("./text-tokenizer.js").then(m => m.loadTokenizer());
+        let tokenizer = await import("./bert-text-tokenizer.js").then(m => new m.BertTokenizer());
+        await tokenizer.load();
         
         // Tokens computed in Python notebook:
         // let texts = ["hello world!", "testing one two three", "hi", "aaaaaaaaaaaaaaaa"];
@@ -29,9 +30,10 @@
         // textTokens = Int32Array.from(textTokens);
         // Should match this Python output (all 4 `texts`): <tf.Tensor: shape=(4, 768), dtype=float32, numpy= array([[-0.00325142,  0.01848885,  0.00041978, ...,  0.00173793, -0.00536559, -0.06884101], [-0.01331316,  0.01797788,  0.00657475, ...,  0.00655348, 0.02183297, -0.08194969], [ 0.00275494,  0.0236993 ,  0.0011628 , ...,  0.00860824, 0.00814609, -0.05825125], [ 0.00415286,  0.00938824, -0.00084121, ...,  0.01578477, 0.0134029 , -0.06656414]], dtype=float32)>
         
-        let textTokens = tokenizer.encode("hello world!");
+        let textTokens = tokenizer.tokenize("hello world!");
+        textTokens.unshift(101); // manually put CLS token at the start
         textTokens.length = 16;
-        textTokens = [...textTokens.slice(0, 16)].map(e => e == undefined ? 0 : e); // pad to length of 16
+        textTokens = [...textTokens.slice(0, 16)].map(e => e == undefined ? 0 : e); // pad with zeros to length of 16
         textTokens = Int32Array.from(textTokens);
           
         const feeds = {'text_tokens': new ort.Tensor('int32', textTokens, [1,16])};
