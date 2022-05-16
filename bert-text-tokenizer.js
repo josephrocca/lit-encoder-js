@@ -1,5 +1,17 @@
 // This is an edited version of this file: https://github.com/tensorflow/tfjs-models/blob/master/qna/src/bert_tokenizer.ts
 
+/*
+  Example usage:
+  
+    let tokenizer = await import("./bert-text-tokenizer.js").then(m => new m.BertTokenizer());
+    await tokenizer.load();
+    let textTokens = tokenizer.tokenize("hello world!");
+    textTokens.length = 16
+    textTokens = [...textTokens.slice(0, 16)].map(e => e == undefined ? 0 : e); // pad with zeros to length of 16
+    textTokens = Int32Array.from(textTokens);
+    
+*/
+
 /**
  * @license
  * Copyright 2020 Google LLC. All Rights Reserved.
