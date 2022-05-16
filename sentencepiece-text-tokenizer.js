@@ -1,5 +1,16 @@
 // The code below is a slightly edited version of this: https://github.com/tensorflow/tfjs-models/blob/master/universal-sentence-encoder/src/tokenizer/index.ts
 
+/*
+  Example usage:
+  
+    let tokenizer = await import("./text-tokenizer.js").then(m => m.loadTokenizer());
+    let textTokens = tokenizer.encode("hello world!");
+    textTokens.length = 16
+    textTokens = [...textTokens.slice(0, 16)].map(e => e == undefined ? 0 : e); // pad with zeros to length of 16
+    textTokens = Int32Array.from(textTokens);
+    
+ */
+
 /**
  * @license
  * Copyright 2019 Google LLC. All Rights Reserved.
