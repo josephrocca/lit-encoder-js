@@ -1,5 +1,5 @@
 # LiT Image and Text Encoders For Browser & Deno
-Check out the demos below. Note that the models are ~400mb each so they may take a while to initalize depending on your internet speed.
+This repo demonstrates [LiT](https://github.com/google-research/vision_transformer/#lit-models) converted to ONNX and running in the browser. Check out the demos below. Note that the models are ~400mb each so they may take a while to initalize depending on your internet speed.
 
 ## Demos:
 * **Image Embedding**: https://josephrocca.github.io/lit-encoder-js/embed_images_onnx.html
