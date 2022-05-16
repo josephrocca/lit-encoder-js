@@ -4,6 +4,6 @@ This repo demonstrates [LiT](https://github.com/google-research/vision_transform
 ## Demos:
 * **Image embedding**: https://josephrocca.github.io/lit-encoder-js/embed_images_onnx.html
 * **Text embedding**: https://josephrocca.github.io/lit-encoder-js/embed_text_onnx.html
-* **Sort a local directory of images**: https://josephrocca.github.io/clip-image-sorter/
+* **Sort/search a local directory of images**: https://josephrocca.github.io/clip-image-sorter/ (use drop-down to select LiT model)
 
 JAX to ONNX conversion notebook: https://colab.research.google.com/github/josephrocca/lit-encoder-js/blob/main/LiT_conversion_jax2tf_to_SavedModel_to_ONNX_text_%26_image_models.ipynb
