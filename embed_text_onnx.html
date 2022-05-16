@@ -26,11 +26,11 @@
         // Tokens computed in Python notebook:
         // let texts = ["hello world!", "testing one two three", "hi", "aaaaaaaaaaaaaaaa"];
         // let textTokens = [[101,7592,2088,999,0,0,0,0,0,0,0,0,0,0,0,0],[101,5604,2028,2048,2093,0,0,0,0,0,0,0,0,0,0,0],[101,7632,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[101,13360,11057,11057,11057,11057,11057,11057,2050,0,0,0,0,0,0,0]];
-        // textTokens = Int32Array.from(textTokens[0]); // just use the first one for this test ("hello world!")
+        // textTokens = Int32Array.from(textTokens);
         // Should match this Python output (all 4 `texts`): <tf.Tensor: shape=(4, 768), dtype=float32, numpy= array([[-0.00325142,  0.01848885,  0.00041978, ...,  0.00173793, -0.00536559, -0.06884101], [-0.01331316,  0.01797788,  0.00657475, ...,  0.00655348, 0.02183297, -0.08194969], [ 0.00275494,  0.0236993 ,  0.0011628 , ...,  0.00860824, 0.00814609, -0.05825125], [ 0.00415286,  0.00938824, -0.00084121, ...,  0.01578477, 0.0134029 , -0.06656414]], dtype=float32)>
         
         let textTokens = tokenizer.encode("hello world!");
-        textTokens.length = 16
+        textTokens.length = 16;
         textTokens = [...textTokens.slice(0, 16)].map(e => e == undefined ? 0 : e); // pad to length of 16
         textTokens = Int32Array.from(textTokens);
           
